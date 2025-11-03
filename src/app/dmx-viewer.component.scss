@@ -1,0 +1,60 @@
+:host {
+  display: block;
+}
+
+.dmx-header {
+  margin-bottom: 0.5rem;
+}
+
+.dmx-title {
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.dmx-meta {
+  margin: 0.15rem 0 0 0;
+  font-size: 0.7rem;
+  color: #444;
+}
+
+.dmx-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  align-items: stretch;
+}
+
+.dmx-cell {
+  flex: 0 0 calc(100% / 32 - 0.25rem);
+  min-width: 34px;
+  background-color: #fff;
+  border: 1px solid #d7d7d7;
+  border-radius: 0.2rem;
+  padding: 0.2rem 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-height: 34px;
+  transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+.dmx-cell--changed {
+  background-color: #b8b8b8; /* middle gray */
+  border-color: #a0a0a0;
+}
+
+.dmx-channel {
+  font-size: 0.75rem;
+  line-height: 1;
+  color: #555;
+}
+
+.dmx-value {
+  font-size: 1.3rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.dmx-empty {
+  font-style: italic;
+}
