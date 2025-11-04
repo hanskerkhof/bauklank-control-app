@@ -1,20 +1,22 @@
-:host {
-  display: block;
-}
-
 .dmx-header {
-  margin-bottom: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: var(--tui-space-s, 0.75rem); /* small gap between texts */
+  row-gap: var(--tui-space-xs, 0.5rem);
+  margin-bottom: var(--tui-space-s, 0.75rem);
 }
 
 .dmx-title {
-  font-size: 0.9rem;
   margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .dmx-meta {
-  margin: 0.15rem 0 0 0;
-  font-size: 0.7rem;
-  color: #444;
+  margin: 0;
+  color: var(--tui-text-02, #555);
+  font-size: 1rem;
 }
 
 .dmx-grid {
@@ -27,7 +29,7 @@
 .dmx-cell {
   flex: 0 0 calc(100% / 32 - 0.25rem);
   min-width: 34px;
-  background-color: #fff;
+  background-color: #fff; /* 0-value default */
   border: 1px solid #d7d7d7;
   border-radius: 0.2rem;
   padding: 0.2rem 0.25rem;
@@ -38,9 +40,16 @@
   transition: background-color 0.2s ease-out, border-color 0.2s ease-out;
 }
 
+/* > 0 gets light gray */
+:host ::ng-deep .dmx-cell--active {
+  background-color: #e3e3e3;
+  animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+/* changed should be the strongest state, so keep it after .dmx-cell--active */
 .dmx-cell--changed {
-  background-color: #b8b8b8; /* middle gray */
-  border-color: #a0a0a0;
+  background-color: #a8a8a8;
+  border-color: #787878;
 }
 
 .dmx-channel {

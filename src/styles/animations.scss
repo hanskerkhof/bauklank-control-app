@@ -1,0 +1,96 @@
+/* ==========================================================================
+   BAUKLANK CONTROL — Global Animations
+   --------------------------------------------------------------------------
+   Central library for reusable CSS animations across the Bauklank ecosystem.
+   --------------------------------------------------------------------------
+   USAGE:
+     1. Import once in src/styles.scss:
+          @import 'styles/animations';
+     2. Apply in components or global classes:
+          animation: <name> <duration> <easing> [delay] [iteration];
+
+   CURRENTLY USED IN:
+     - ws-status.component.scss:
+         • blink-double-wait → red “disconnected” badge dot
+         • pulse-soft        → green “connected” badge dot
+   --------------------------------------------------------------------------
+   Notes:
+     - Use for status lights, subtle visual feedback, or entrances.
+     - Keep motion gentle and rhythmic; Bauklank aesthetic prefers calm motion.
+   ==========================================================================
+*/
+
+/* -----------------------------------------------------------
+   1) Double Blink + Pause
+   Pattern: on → off → on → off → wait
+   Use for "disconnected" or "attention" states.
+   Example:
+     .dot-error {
+       animation: blink-double-wait 1.4s ease-in-out infinite;
+     }
+----------------------------------------------------------- */
+@keyframes blink-double-wait {
+  0% { opacity: 1; }
+  10% { opacity: 0.2; }
+  20% { opacity: 1; }
+  30% { opacity: 0.2; }
+  100% { opacity: 1; } /* pause at the end */
+}
+
+/* -----------------------------------------------------------
+   2) Soft Pulse
+   Pattern: slow in/out brightness + scale
+   Use for "connected", "alive", or "active" status lights.
+   Example:
+     .dot-ok {
+       animation: pulse-soft 1.2s ease-in-out infinite;
+     }
+----------------------------------------------------------- */
+@keyframes pulse-soft {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.9);
+  }
+}
+
+/* -----------------------------------------------------------
+   3) Fade In Up
+   Pattern: fade from transparent + move up slightly
+   Use for panels, cards, or DMX sections appearing on load.
+   Example:
+     .dmx-viewer {
+       animation: fade-in-up 0.25s ease-out;
+     }
+----------------------------------------------------------- */
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* -----------------------------------------------------------
+   4) Glow Pulse
+   Pattern: soft fade in/out using opacity only
+   Use for any “highlight”, “active”, or “focus” visual cue.
+   Example:
+     .is-active {
+       animation: glow-pulse 1.5s ease-in-out infinite;
+     }
+----------------------------------------------------------- */
+@keyframes glow-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}

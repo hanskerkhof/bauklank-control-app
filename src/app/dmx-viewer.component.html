@@ -1,7 +1,7 @@
 <section aria-label="DMX channels">
   @if (dmx()) {
     <header class="dmx-header">
-      <h2 class="dmx-title">DMX Universe {{ universe() }}</h2>
+      <p class="dmx-title tui-text_h2">DMX Universe {{ universe() }}</p>
       <p class="dmx-meta">{{ channels().length }} channels received</p>
     </header>
 
@@ -11,6 +11,7 @@
           class="dmx-cell"
           role="listitem"
           [class.dmx-cell--changed]="changed()[i]"
+          [class.dmx-cell--active]="value > 0"
         >
           <span class="dmx-channel">Ch {{ i + 1 }}</span>
           <span class="dmx-value">{{ value }}</span>
@@ -23,51 +24,3 @@
     </p>
   }
 </section>
-
-<!--<section aria-label="DMX channels">-->
-<!--  @if (dmx()) {-->
-<!--    <header class="dmx-header">-->
-<!--      <h2 class="dmx-title">DMX Universe {{ universe() }}</h2>-->
-<!--      <p class="dmx-meta">{{ channels().length }} channels received</p>-->
-<!--    </header>-->
-
-<!--    <div class="dmx-grid" role="list" aria-label="DMX channel values">-->
-<!--      @for (value of channels(); let i = $index; track i) {-->
-<!--        <div class="dmx-cell" role="listitem">-->
-<!--          <span class="dmx-channel">Ch {{ i + 1 }}</span>-->
-<!--          <span class="dmx-value">{{ value }}</span>-->
-<!--        </div>-->
-<!--      }-->
-<!--    </div>-->
-<!--  } @else {-->
-<!--    <p class="dmx-empty" role="status">-->
-<!--      Waiting for DMX over WebSocket…-->
-<!--    </p>-->
-<!--  }-->
-<!--</section>-->
-
-<!--&lt;!&ndash;<section aria-label="DMX channels">&ndash;&gt;-->
-<!--&lt;!&ndash;  @if (dmx()) {&ndash;&gt;-->
-<!--&lt;!&ndash;    <header class="dmx-header">&ndash;&gt;-->
-<!--&lt;!&ndash;      <h2 class="dmx-title">&ndash;&gt;-->
-<!--&lt;!&ndash;        DMX Universe {{ universe() }}&ndash;&gt;-->
-<!--&lt;!&ndash;      </h2>&ndash;&gt;-->
-<!--&lt;!&ndash;      <p class="dmx-meta">&ndash;&gt;-->
-<!--&lt;!&ndash;        {{ channels().length }} channels received&ndash;&gt;-->
-<!--&lt;!&ndash;      </p>&ndash;&gt;-->
-<!--&lt;!&ndash;    </header>&ndash;&gt;-->
-
-<!--&lt;!&ndash;    <div class="dmx-grid" role="list" aria-label="DMX channel values">&ndash;&gt;-->
-<!--&lt;!&ndash;      @for (value of channels(); let i = $index; track i) {&ndash;&gt;-->
-<!--&lt;!&ndash;        <div class="dmx-cell" role="listitem">&ndash;&gt;-->
-<!--&lt;!&ndash;          <span class="dmx-channel">Ch {{ i + 1 }}</span>&ndash;&gt;-->
-<!--&lt;!&ndash;          <span class="dmx-value">{{ value }}</span>&ndash;&gt;-->
-<!--&lt;!&ndash;        </div>&ndash;&gt;-->
-<!--&lt;!&ndash;      }&ndash;&gt;-->
-<!--&lt;!&ndash;    </div>&ndash;&gt;-->
-<!--&lt;!&ndash;  } @else {&ndash;&gt;-->
-<!--&lt;!&ndash;    <p class="dmx-empty" role="status">&ndash;&gt;-->
-<!--&lt;!&ndash;      Waiting for DMX over WebSocket…&ndash;&gt;-->
-<!--&lt;!&ndash;    </p>&ndash;&gt;-->
-<!--&lt;!&ndash;  }&ndash;&gt;-->
-<!--&lt;!&ndash;</section>&ndash;&gt;-->

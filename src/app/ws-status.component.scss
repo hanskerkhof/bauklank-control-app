@@ -1,0 +1,40 @@
+:host ::ng-deep  .ws-dot--err {
+  background: #dc2626;
+  animation: blink-double-wait 1.4s ease-in-out infinite;
+}
+
+:host ::ng-deep .ws-dot--ok {
+  //background: #16a34a;
+  animation: pulse-soft 1.2s ease-in-out infinite;
+}
+
+.ws-status-host {
+  position: fixed;
+  top: 0.9rem;
+  right: 1rem;
+  z-index: 1000;
+}
+
+.ws-status {
+  display: inline-flex;
+}
+
+.ws-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ws-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+}
+
+.ws-dot--ok {
+  background: #16a34a;
+}
+
+.ws-dot--err {
+  background: #dc2626;
+}

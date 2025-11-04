@@ -1,0 +1,22 @@
+<!--v3-->
+<div class="ws-status" aria-live="polite">
+  @if (isConnected()) {
+    <tui-badge
+      appearance="positive"
+      size="xl"
+      class="ws-badge"
+    >
+      <span class="ws-dot ws-dot--ok" aria-hidden="true"></span>
+      WS connected
+    </tui-badge>
+  } @else {
+    <tui-badge
+      appearance="negative"
+      size="xl"
+      class="ws-badge"
+    >
+      <span class="ws-dot ws-dot--err" aria-hidden="true"></span>
+      WS disconnected
+    </tui-badge>
+  }
+</div>

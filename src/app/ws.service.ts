@@ -2,9 +2,9 @@
 import {
   Injectable,
   NgZone,
+  computed,
   inject,
   signal,
-  computed,
 } from '@angular/core';
 import { APP_CONFIG, AppConfig } from './app.config';
 
@@ -17,12 +17,14 @@ interface WsMessage<T = unknown> {
 
 export interface DmxPayload {
   universe: number;
-  channels: number[]; // expect length 512, but we won't assume in code
+  channels: number[];
 }
 
 export interface StatePayload {
   [key: string]: unknown;
 }
+
+type WsStatus = 'connecting' | 'connected' | 'disconnected' | 'error';
 
 @Injectable({
   providedIn: 'root',
@@ -33,23 +35,42 @@ export class WsService {
 
   private socket?: WebSocket;
 
+  // signals
   private readonly stateSignal = signal<StatePayload | null>(null);
   private readonly dmxSignal = signal<DmxPayload | null>(null);
+  private readonly statusSignal = signal<WsStatus>('disconnected');
 
-  // readonly views
+  // reconnect
+  private reconnectAttempts = 0;
+  private reconnectTimer: number | null = null;
+
   readonly state = this.stateSignal.asReadonly();
   readonly dmx = this.dmxSignal.asReadonly();
+  readonly status = this.statusSignal.asReadonly();
 
-  // optional: derived channel count, useful in views
-  readonly dmxChannelCount = computed(() => this.dmxSignal()?.channels.length ?? 0);
+  readonly isConnected = computed(() => this.statusSignal() === 'connected');
 
   connect(): void {
-    if (this.socket) {
+    // avoid multiple connections
+    if (this.socket && this.statusSignal() !== 'disconnected') {
       return;
     }
 
+    this.statusSignal.set('connecting');
+
     const ws = new WebSocket(this.cfg.wsUrl);
     this.socket = ws;
+
+    ws.onopen = () => {
+      this.zone.run(() => {
+        this.statusSignal.set('connected');
+        this.reconnectAttempts = 0;
+        if (this.reconnectTimer !== null) {
+          window.clearTimeout(this.reconnectTimer);
+          this.reconnectTimer = null;
+        }
+      });
+    };
 
     ws.onmessage = (evt) => {
       this.zone.run(() => {
@@ -65,37 +86,77 @@ export class WsService {
 
     ws.onclose = () => {
       this.zone.run(() => {
+        this.statusSignal.set('disconnected');
         this.socket = undefined;
-        // we can add retry logic later
+        this.scheduleReconnect();
+      });
+    };
+
+    ws.onerror = () => {
+      this.zone.run(() => {
+        this.statusSignal.set('error');
+        this.socket = undefined;
+        this.scheduleReconnect();
       });
     };
   }
+
+  private scheduleReconnect(): void {
+    // basic backoff: 1s, 2s, 4s, … up to 30s
+    const attempt = this.reconnectAttempts + 1;
+    this.reconnectAttempts = attempt;
+    const delay = Math.min(1000 * 2 ** (attempt - 1), 30000);
+
+    this.reconnectTimer = window.setTimeout(() => {
+      this.connect();
+    }, delay);
+  }
 }
 
-// import { Inject, Injectable, NgZone } from '@angular/core';
-// import { BehaviorSubject, Subject } from 'rxjs';
+// // src/app/ws.service.ts
+// import {
+//   Injectable,
+//   NgZone,
+//   inject,
+//   signal,
+//   computed,
+// } from '@angular/core';
 // import { APP_CONFIG, AppConfig } from './app.config';
 //
-// interface WsMessage {
-//   type: string;
-//   data: any;
+// type WsMessageType = 'state' | 'dmx' | string;
+//
+// interface WsMessage<T = unknown> {
+//   type: WsMessageType;
+//   data: T;
 // }
 //
-// @Injectable({ providedIn: 'root' })
+// export interface DmxPayload {
+//   universe: number;
+//   channels: number[]; // expect length 512, but we won't assume in code
+// }
+//
+// export interface StatePayload {
+//   [key: string]: unknown;
+// }
+//
+// @Injectable({
+//   providedIn: 'root',
+// })
 // export class WsService {
+//   private readonly zone = inject(NgZone);
+//   private readonly cfg = inject<AppConfig>(APP_CONFIG);
+//
 //   private socket?: WebSocket;
 //
-//   // latest snapshots
-//   state$ = new BehaviorSubject<any | null>(null);
-//   dmx$ = new BehaviorSubject<any | null>(null);
+//   private readonly stateSignal = signal<StatePayload | null>(null);
+//   private readonly dmxSignal = signal<DmxPayload | null>(null);
 //
-//   // raw stream if you want to inspect/log
-//   messages$ = new Subject<WsMessage>();
+//   // readonly views
+//   readonly state = this.stateSignal.asReadonly();
+//   readonly dmx = this.dmxSignal.asReadonly();
 //
-//   constructor(
-//     private zone: NgZone,
-//     @Inject(APP_CONFIG) private cfg: AppConfig,
-//   ) {}
+//   // optional: derived channel count, useful in views
+//   readonly dmxChannelCount = computed(() => this.dmxSignal()?.channels.length ?? 0);
 //
 //   connect(): void {
 //     if (this.socket) {
@@ -106,15 +167,13 @@ export class WsService {
 //     this.socket = ws;
 //
 //     ws.onmessage = (evt) => {
-//       // ensure Angular knows something changed
 //       this.zone.run(() => {
 //         const msg = JSON.parse(evt.data) as WsMessage;
-//         this.messages$.next(msg);
 //
 //         if (msg.type === 'state') {
-//           this.state$.next(msg.data);
+//           this.stateSignal.set(msg.data as StatePayload);
 //         } else if (msg.type === 'dmx') {
-//           this.dmx$.next(msg.data);
+//           this.dmxSignal.set(msg.data as DmxPayload);
 //         }
 //       });
 //     };
@@ -122,7 +181,7 @@ export class WsService {
 //     ws.onclose = () => {
 //       this.zone.run(() => {
 //         this.socket = undefined;
-//         // optional: add auto-reconnect later
+//         // we can add retry logic later
 //       });
 //     };
 //   }
