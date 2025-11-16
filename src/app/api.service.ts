@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APP_CONFIG, AppConfig } from './app.config';
+import { PlansResponse } from './plans.model';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -10,8 +11,8 @@ export class ApiService {
     @Inject(APP_CONFIG) private cfg: AppConfig,
   ) {}
 
-  getPlans(): Observable<any> {
-    return this.http.get(`${this.cfg.apiBase}/plans`);
+  getPlans(): Observable<PlansResponse> {
+    return this.http.get<PlansResponse>(`${this.cfg.apiBase}/plans`);
   }
 
   getSoundLibrary(): Observable<any> {
