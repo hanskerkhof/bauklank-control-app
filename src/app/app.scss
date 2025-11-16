@@ -5,7 +5,9 @@
 }
 
 .content {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .app-title {
@@ -14,6 +16,26 @@
 //  color: var(--tui-text-01, #111);
 //  text-transform: uppercase;
 //  //letter-spacing: 0.04em;
+}
+
+.topbar {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.active-plan {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  font-weight: 600;
+}
+
+.active-plan__label {
+  color: var(--tui-text-02, #6f6f6f);
+  font-weight: 500;
 }
 
 app-ws-status {

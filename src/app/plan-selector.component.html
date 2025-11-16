@@ -1,0 +1,18 @@
+<div class="plan-selector__header">Plan selection</div>
+<div class="plan-selector__controls">
+  <label class="plan-selector__label" for="plan-select">Plan</label>
+  <select
+    #planSelect
+    id="plan-select"
+    class="plan-selector__select"
+    [value]="selectedPlanId() ?? ''"
+    (change)="onPlanChange(planSelect.value)"
+  >
+    <option *ngFor="let plan of plans()" [value]="plan.id">
+      {{ plan.label }}
+    </option>
+  </select>
+  <button type="button" class="plan-selector__button" [disabled]="!selectedPlanId()">
+    Set plan
+  </button>
+</div>
