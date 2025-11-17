@@ -1,5 +1,15 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
-import { EMPTY, Observable, catchError, finalize, forkJoin, switchMap, tap, timer } from 'rxjs';
+import {
+  EMPTY,
+  Observable,
+  catchError,
+  finalize,
+  forkJoin,
+  switchMap,
+  tap,
+  timer,
+  throwError,
+} from 'rxjs';
 import { WsService } from './ws.service';
 import { ApiService } from './api.service';
 import { PlansResponse, Plan, Fixture } from '../data/plans.model';
@@ -26,6 +36,7 @@ export class ControlStateService {
   readonly activePlanId = computed(() => this.configSignal()?.plan ?? null);
   readonly activePlanLabel = computed(() => this.findActivePlan()?.label ?? this.activePlanId());
   readonly activePlanFixtures = computed<Fixture[]>(() => this.findActivePlan()?.fixtures ?? []);
+  readonly config = computed(() => this.configSignal());
   readonly soundLibrary = computed(() => this.soundLibrarySignal());
   readonly soundLibrarySummary = computed(() => {
     const library = this.soundLibrarySignal();
@@ -60,18 +71,29 @@ export class ControlStateService {
       return;
     }
 
-    const nextConfig: ControlConfig = {
-      ...currentConfig,
-      plan: planId,
-    };
-
-    this.api.updateConfig(nextConfig).subscribe({
-      next: (updated) => {
-        this.configSignal.set(updated);
+    this.updateConfig({ plan: planId }).subscribe({
+      next: () => {
         this.fetchSoundLibrary().subscribe();
       },
       error: (error) => console.error('Failed to update config', error),
     });
+  }
+
+  updateConfig(partialConfig: Partial<ControlConfig>): Observable<ControlConfig> {
+    const currentConfig = this.configSignal();
+
+    if (!currentConfig) {
+      return throwError(() => new Error('Config not loaded'));
+    }
+
+    const nextConfig: ControlConfig = {
+      ...currentConfig,
+      ...partialConfig,
+    };
+
+    return this.api.updateConfig(nextConfig).pipe(
+      tap((updated) => this.configSignal.set(updated)),
+    );
   }
 
   restart(): void {

@@ -7,6 +7,7 @@ import { RouterOutlet } from '@angular/router';
 import { NavigationBarComponent } from './shared/navigation-bar/navigation-bar.component';
 import { ControlStateService } from './services/control-state.service';
 import { SoundLibrarySummaryComponent } from './shared/sound-library-summary/sound-library-summary.component';
+import { ArtnetConfigComponent } from './shared/artnet-config/artnet-config.component';
 
 @Component({
   selector: 'app-root',
@@ -18,6 +19,7 @@ import { SoundLibrarySummaryComponent } from './shared/sound-library-summary/sou
     RouterOutlet,
     NavigationBarComponent,
     SoundLibrarySummaryComponent,
+    ArtnetConfigComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss',
