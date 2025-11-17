@@ -11,7 +11,12 @@
         </div>
       </header>
       <section class="content">
-        <app-plan-selector *ngIf="plans().length" [plans]="plans()"></app-plan-selector>
+        <app-plan-selector
+          *ngIf="plans().length"
+          [plans]="plans()"
+          [activePlanId]="activePlanId()"
+          (setPlan)="handleSetPlan($event)"
+        ></app-plan-selector>
         <app-dmx-viewer [dmx]="dmx()"></app-dmx-viewer>
       </section>
     </main>
