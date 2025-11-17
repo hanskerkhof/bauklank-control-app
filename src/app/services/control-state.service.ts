@@ -52,6 +52,7 @@ export class ControlStateService {
   private readonly dataReloaders: Array<() => Observable<unknown>> = [
     () => this.fetchConfig(),
     () => this.fetchSoundLibrary(),
+    () => this.fetchPlans(),
     () => this.fetchDmx(),
   ];
 
