@@ -33,7 +33,7 @@ export class App {
   private readonly plansResponse = signal<PlansResponse | null>(null);
   private readonly config = signal<ControlConfig | null>(null);
   private readonly soundLibrary = signal<SoundLibrary | null>(null);
-  private readonly isRestarting = signal(false);
+  protected readonly isRestarting = signal(false);
 
   protected readonly dmx = computed(() => this.ws.dmx());
   protected readonly plans = computed(() => this.plansResponse()?.plans ?? []);
