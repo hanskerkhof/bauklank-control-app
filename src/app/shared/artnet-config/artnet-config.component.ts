@@ -62,10 +62,30 @@ export class ArtnetConfigComponent {
     const input = event.target as HTMLInputElement;
     const sanitized = input.value
       .replace(/[^\d.]/g, '')
-      .split('.')
-      .map((segment) => segment.slice(0, 3))
-      .filter((segment) => segment.length > 0)
-      .join('.');
+      .slice(0, 15)
+      .split('')
+      .reduce(
+        (result, char) => {
+          if (char === '.') {
+            if (result.segment.length === 0 || result.dotCount >= 3) {
+              return result;
+            }
+
+            result.value += '.';
+            result.segment = '';
+            result.dotCount += 1;
+            return result;
+          }
+
+          if (result.segment.length < 3) {
+            result.segment += char;
+            result.value += char;
+          }
+
+          return result;
+        },
+        { value: '', segment: '', dotCount: 0 }
+      ).value;
 
     this.artnetIp.set(sanitized);
     input.value = sanitized;
