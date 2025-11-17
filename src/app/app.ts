@@ -14,6 +14,7 @@ import { ApiService } from './api.service';
 import { PlanSelectorComponent } from './shared/plan-selector/plan-selector.component';
 import { PlansResponse } from './data/plans.model';
 import { ControlConfig } from './data/config.model';
+import { SoundLibrary } from './data/sound-library.model';
 
 @Component({
   selector: 'app-root',
@@ -30,9 +31,13 @@ export class App {
   private readonly api = inject(ApiService);
   private readonly plansResponse = signal<PlansResponse | null>(null);
   private readonly config = signal<ControlConfig | null>(null);
+  private readonly soundLibrary = signal<SoundLibrary | null>(null);
 
   protected readonly dmx = computed(() => this.ws.dmx());
   protected readonly plans = computed(() => this.plansResponse()?.plans ?? []);
+  protected readonly sortedPlans = computed(() =>
+    [...this.plans()].sort((a, b) => a.label.localeCompare(b.label)),
+  );
   protected readonly activePlanId = computed(() => this.config()?.plan ?? null);
   protected readonly activePlanLabel = computed(() => {
     const activeId = this.activePlanId();
@@ -43,10 +48,20 @@ export class App {
     const activePlan = this.plans().find((plan) => plan.id === activeId);
     return activePlan ? activePlan.label : activeId;
   });
+  protected readonly soundLibrarySummary = computed(() => {
+    const library = this.soundLibrary();
+    if (!library) {
+      return null;
+    }
+
+    const trackCount = library.tracks?.length ?? 0;
+    return `${library.plan} tracks: ${trackCount}`;
+  });
 
   constructor() {
     this.loadConfig();
     this.loadPlans();
+    this.loadSoundLibrary();
     this.ws.connect();
   }
 
@@ -62,7 +77,10 @@ export class App {
     };
 
     this.api.updateConfig(nextConfig).subscribe({
-      next: (updated) => this.config.set(updated),
+      next: (updated) => {
+        this.config.set(updated);
+        this.loadSoundLibrary();
+      },
       error: (error) => console.error('Failed to update config', error),
     });
   }
@@ -78,6 +96,13 @@ export class App {
     this.api.getConfig().subscribe({
       next: (cfg) => this.config.set(cfg),
       error: (error) => console.error('Failed to load config', error),
+    });
+  }
+
+  private loadSoundLibrary(): void {
+    this.api.getSoundLibrary().subscribe({
+      next: (library) => this.soundLibrary.set(library),
+      error: (error) => console.error('Failed to load sound library', error),
     });
   }
 }

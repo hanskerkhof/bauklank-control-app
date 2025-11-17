@@ -7,6 +7,11 @@
         <h1 class="tui-text_h1 app-title">BAUKLANK CONTROL</h1>
       </header>
       <section class="content">
+          <div class="sound-library" *ngIf="soundLibrarySummary() as soundLibrarySummary">
+          <span class="sound-library__label">Sound library:</span>
+          <span class="sound-library__value">{{ soundLibrarySummary }}</span>
+        </div>
+
           <div class="active-plan" *ngIf="activePlanLabel() as activePlanLabel">
           <span class="active-plan__label">Active plan:</span>
           <span class="active-plan__value">{{ activePlanLabel }}</span>
@@ -14,7 +19,7 @@
 
         <app-plan-selector
           *ngIf="plans().length"
-          [plans]="plans()"
+          [plans]="sortedPlans()"
           [activePlanId]="activePlanId()"
           (setPlan)="handleSetPlan($event)"
         ></app-plan-selector>
