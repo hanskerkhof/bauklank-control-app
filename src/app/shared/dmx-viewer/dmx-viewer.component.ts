@@ -4,10 +4,13 @@ import {
   Signal,
   computed,
   effect,
+  inject,
   input,
   signal,
 } from '@angular/core';
+import { take } from 'rxjs';
 import { DmxPayload } from '../../services/ws.service';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-dmx-viewer',
@@ -19,15 +22,22 @@ import { DmxPayload } from '../../services/ws.service';
   },
 })
 export class DmxViewerComponent {
+  private readonly api = inject(ApiService);
+
   readonly dmx = input<DmxPayload | null>(null);
 
+  protected readonly initialDmx = signal<DmxPayload | null>(null);
+  protected readonly activeDmx: Signal<DmxPayload | null> = computed(
+    () => this.dmx() ?? this.initialDmx(),
+  );
+
   protected readonly channels: Signal<number[]> = computed(() => {
-    const d = this.dmx();
+    const d = this.activeDmx();
     return d?.channels ?? [];
   });
 
   protected readonly universe: Signal<number | null> = computed(() => {
-    const d = this.dmx();
+    const d = this.activeDmx();
     return d ? d.universe : null;
   });
 
@@ -38,6 +48,8 @@ export class DmxViewerComponent {
   private clearTimers: number[] = [];
 
   constructor() {
+    this.loadInitialDmx();
+
     effect(() => {
       const current = this.channels();
       const prev = this.previousChannels;
@@ -73,6 +85,16 @@ export class DmxViewerComponent {
 
       this.previousChannels = current.slice();
     });
+  }
+
+  private loadInitialDmx(): void {
+    this.api
+      .getDmx()
+      .pipe(take(1))
+      .subscribe({
+        next: (dmxPayload) => this.initialDmx.set(dmxPayload),
+        error: (error) => console.error('Failed to load DMX', error),
+      });
   }
 
   private scheduleClear(index: number): void {
