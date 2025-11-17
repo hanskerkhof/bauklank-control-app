@@ -17,8 +17,8 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_CONFIG,
       useValue: {
-        apiBase: 'http://localhost:4201/api',
-        wsUrl: 'ws://localhost:4201/ws',
+        apiBase: 'http://localhost:4211/api',
+        wsUrl: 'ws://localhost:4211/ws',
       } satisfies AppConfig,
     },
   ],

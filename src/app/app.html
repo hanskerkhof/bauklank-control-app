@@ -5,12 +5,13 @@
     <main class="layout" aria-label="BAUKLANK control">
       <header class="topbar">
         <h1 class="tui-text_h1 app-title">BAUKLANK CONTROL</h1>
-        <div class="active-plan" *ngIf="activePlanLabel() as activePlanLabel">
+      </header>
+      <section class="content">
+          <div class="active-plan" *ngIf="activePlanLabel() as activePlanLabel">
           <span class="active-plan__label">Active plan:</span>
           <span class="active-plan__value">{{ activePlanLabel }}</span>
         </div>
-      </header>
-      <section class="content">
+
         <app-plan-selector
           *ngIf="plans().length"
           [plans]="plans()"
