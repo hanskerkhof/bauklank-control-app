@@ -1,7 +1,7 @@
 <section class="fixtures-table" aria-label="Fixtures">
   @if (planLabel(); as planLabel) {
     <header class="fixtures-table__header">
-      <h2 class="fixtures-table__title">Fixtures for {{ planLabel }} ({{ fixtures()?.length }}
+      <h2 class="fixtures-table__title">Fixtures for {{ planLabel }} ({{ fixtures().length }}
         {{ fixtures().length === 1 ? 'fixture' : 'fixtures' }})
       </h2>
     </header>
