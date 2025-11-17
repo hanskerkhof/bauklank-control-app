@@ -1,0 +1,30 @@
+<section class="fixtures-table" aria-label="Fixtures">
+  @if (planLabel(); as planLabel) {
+    <header class="fixtures-table__header">
+      <h2 class="fixtures-table__title">Fixtures for {{ planLabel }}</h2>
+    </header>
+  }
+
+  @if (hasFixtures()) {
+    <div class="table" role="table">
+      <div class="table__row table__row--head" role="row">
+        <div class="table__cell" role="columnheader">Name</div>
+        <div class="table__cell" role="columnheader">Type</div>
+        <div class="table__cell" role="columnheader">Universe</div>
+        <div class="table__cell" role="columnheader">Channel</div>
+        <div class="table__cell" role="columnheader">Group</div>
+      </div>
+      @for (fixture of fixtures(); track fixture.name) {
+        <div class="table__row" role="row">
+          <div class="table__cell" role="cell">{{ fixture.name }}</div>
+          <div class="table__cell" role="cell">{{ fixture.fixture_type }}</div>
+          <div class="table__cell" role="cell">{{ fixture.universe }}</div>
+          <div class="table__cell" role="cell">{{ fixture.channel }}</div>
+          <div class="table__cell" role="cell">{{ fixture.plan_group }}</div>
+        </div>
+      }
+    </div>
+  } @else {
+    <p class="fixtures-table__empty">No fixtures found for the active plan.</p>
+  }
+</section>

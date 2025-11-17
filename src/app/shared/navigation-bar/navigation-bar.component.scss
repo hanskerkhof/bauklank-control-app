@@ -1,0 +1,27 @@
+.nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  color: var(--tui-text-02, #6f6f6f);
+  text-decoration: none;
+  transition: color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    color: var(--tui-text-01, #111);
+    background-color: var(--tui-base-03, #ececec);
+  }
+}
+
+.nav__link--active {
+  color: var(--tui-primary, #5c7cff);
+  background-color: var(--tui-base-03, #ececec);
+  font-weight: 600;
+}

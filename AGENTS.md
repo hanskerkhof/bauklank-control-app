@@ -14,6 +14,10 @@ These instructions apply to the entire repository unless a more specific `AGENTS
 - Use Angular’s @for loop syntax with tracking
 - Use Angular @switch syntax for conditionals
 
+## App architecture
+- Routing splits the UI into three standalone feature pages (DMX control, Fixture detail, Dashboard) defined in `src/app/app.routes.ts`.
+- Shared control state (plans, config, sound library, restart actions) lives in `ControlStateService`; prefer consuming its signals instead of duplicating API calls in components.
+
 ## Testing
 - Prefer running `npm test` for changes that affect logic or UI behavior.
 - For build or configuration changes, use `npm run build` when feasible.

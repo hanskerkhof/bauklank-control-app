@@ -1,0 +1,30 @@
+<section class="sound-library-table" aria-label="Sound library">
+  @if (planName(); as planName) {
+    <header class="sound-library-table__header">
+      <h2 class="sound-library-table__title">Sound library ({{ planName }})</h2>
+    </header>
+  }
+
+  @if (tracks().length) {
+    <div class="table" role="table">
+      <div class="table__row table__row--head" role="row">
+        <div class="table__cell" role="columnheader">ID</div>
+        <div class="table__cell" role="columnheader">Name</div>
+        <div class="table__cell" role="columnheader">Filename</div>
+        <div class="table__cell table__cell--numeric" role="columnheader">Duration</div>
+      </div>
+      @for (track of tracks(); track track.id) {
+        <div class="table__row" role="row">
+          <div class="table__cell" role="cell">{{ track.id }}</div>
+          <div class="table__cell" role="cell">{{ track.name }}</div>
+          <div class="table__cell" role="cell">{{ track.filename }}</div>
+          <div class="table__cell table__cell--numeric" role="cell">
+            {{ formatDuration(track.durationMs) }}
+          </div>
+        </div>
+      }
+    </div>
+  } @else {
+    <p class="sound-library-table__empty">No tracks available.</p>
+  }
+</section>

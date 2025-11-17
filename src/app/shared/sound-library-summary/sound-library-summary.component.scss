@@ -1,0 +1,11 @@
+.sound-library {
+  display: inline-flex;
+  gap: 0.25rem;
+  align-items: center;
+  font-weight: 600;
+}
+
+.sound-library__label {
+  color: var(--tui-text-02, #6f6f6f);
+  font-weight: 500;
+}
