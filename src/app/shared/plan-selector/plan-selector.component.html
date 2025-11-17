@@ -12,7 +12,12 @@
       {{ plan.label }}
     </option>
   </select>
-  <button type="button" class="plan-selector__button" [disabled]="!selectedPlanId()">
+  <button
+    type="button"
+    class="plan-selector__button"
+    [disabled]="!canSubmit()"
+    (click)="submitPlan()"
+  >
     Set plan
   </button>
 </div>
