@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { APP_CONFIG, AppConfig } from '../app.config';
+import { DmxPayload } from './ws.service';
 import { PlansResponse } from '../data/plans.model';
 import { ControlConfig } from '../data/config.model';
 import { SoundLibrary } from '../data/sound-library.model';
@@ -37,7 +38,7 @@ export class ApiService {
     return this.http.get(`${this.cfg.apiBase}/state`);
   }
 
-  getDmx(): Observable<any> {
-    return this.http.get(`${this.cfg.apiBase}/dmx`);
+  getDmx(): Observable<DmxPayload> {
+    return this.http.get<DmxPayload>(`${this.cfg.apiBase}/dmx`);
   }
 }
