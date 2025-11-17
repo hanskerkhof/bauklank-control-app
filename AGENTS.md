@@ -11,7 +11,8 @@ These instructions apply to the entire repository unless a more specific `AGENTS
 - Keep TypeScript and Angular code idiomatic: leverage Angular components, services, and modules instead of ad-hoc globals.
 - Avoid introducing new linting or formatting tools without project approval.
 - Use modern Angular @if control flow blocks
-- use Angular’s @for loop syntax with tracking
+- Use Angular’s @for loop syntax with tracking
+- Use Angular @switch syntax for conditionals
 
 ## Testing
 - Prefer running `npm test` for changes that affect logic or UI behavior.
