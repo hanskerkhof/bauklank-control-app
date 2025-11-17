@@ -1,5 +1,5 @@
 <section aria-label="DMX channels">
-  @if (dmx()) {
+  @if (activeDmx()) {
     <header class="dmx-header">
       <p class="dmx-title tui-text_h2">DMX Universe {{ universe() }}</p>
       <p class="dmx-meta">{{ channels().length }} channels received</p>
