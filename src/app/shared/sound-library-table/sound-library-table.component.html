@@ -1,7 +1,11 @@
 <section class="sound-library-table" aria-label="Sound library">
   @if (planName(); as planName) {
     <header class="sound-library-table__header">
-      <h2 class="sound-library-table__title">Sound library ({{ planName }})</h2>
+      <h2 class="sound-library-table__title">Sound library ({{ planName }}) - {{ tracks().length }}
+        {{ tracks().length === 1 ? 'track' : 'tracks' }}
+      </h2>
+
+
     </header>
   }
 

@@ -7,8 +7,8 @@ import {
   output,
   signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Plan } from '../../data/plans.model';
+import {CommonModule} from '@angular/common';
+import {Plan} from '../../data/plans.model';
 
 @Component({
   selector: 'app-plan-selector',
@@ -59,7 +59,8 @@ export class PlanSelectorComponent {
 
   protected planLabel(plan: Plan): string {
     const fixtureCount = plan.fixtureCount ?? plan.fixtures?.length ?? 0;
-    return `${plan.label} - fixtures: ${fixtureCount}`;
+    const fixtureWord = fixtureCount === 1 ? 'fixture' : 'fixtures';
+    return `${plan.label} - ${fixtureCount} ${fixtureWord}`;
   }
 
   protected onPlanChange(nextPlanId: string): void {
