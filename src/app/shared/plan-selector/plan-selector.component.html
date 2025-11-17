@@ -8,9 +8,11 @@
     [value]="selectedPlanId() ?? ''"
     (change)="onPlanChange(planSelect.value)"
   >
-    <option *ngFor="let plan of plans()" [value]="plan.id">
-      {{ planLabel(plan) }}
-    </option>
+    @for (plan of plans(); track plan.id) {
+      <option [value]="plan.id">
+        {{ planLabel(plan) }}
+      </option>
+    }
   </select>
   <button
     type="button"
