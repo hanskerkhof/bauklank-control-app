@@ -31,6 +31,7 @@ export class PlanSelectorComponent {
   protected readonly canSubmit = computed(() => {
     const selected = this.selectedPlanId();
     const active = this.activePlanId();
+    console.log('selected', selected, 'active', active);
     return Boolean(selected && active && selected !== active);
   });
 
