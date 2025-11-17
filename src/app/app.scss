@@ -10,6 +10,68 @@
   gap: 1rem;
 }
 
+.plan-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.plan-actions__selector {
+  flex: 1;
+  min-width: 280px;
+}
+
+.restart-control {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.restart-control__button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--tui-text-03, #d7d7d7);
+  border-radius: 0.5rem;
+  background: var(--tui-base-02, #f4f4f4);
+  color: var(--tui-text-01, #111);
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover:enabled {
+    background: var(--tui-base-03, #ececec);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+}
+
+.restart-control__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--tui-text-02, #6f6f6f);
+}
+
+.restart-control__spinner {
+  width: 1rem;
+  height: 1rem;
+  border: 2px solid var(--tui-text-03, #d7d7d7);
+  border-top-color: var(--tui-primary, #5c7cff);
+  border-radius: 50%;
+  animation: restart-spin 0.8s linear infinite;
+}
+
+@keyframes restart-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .app-title {
 //  //margin-bottom: var(--tui-space-m);
   margin-bottom: 0;

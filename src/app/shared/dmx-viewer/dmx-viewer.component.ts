@@ -7,7 +7,7 @@ import {
   input,
   signal,
 } from '@angular/core';
-import { DmxPayload } from '../../ws.service';
+import { DmxPayload } from '../../services/ws.service';
 
 @Component({
   selector: 'app-dmx-viewer',

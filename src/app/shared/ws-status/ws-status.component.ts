@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { WsService } from '../../ws.service';
+import { WsService } from '../../services/ws.service';
 import { TuiBadge } from '@taiga-ui/kit';
 
 @Component({
