@@ -10,17 +10,33 @@
       <div class="table__row table__row--head" role="row">
         <div class="table__cell" role="columnheader">Name</div>
         <div class="table__cell" role="columnheader">Type</div>
-        <div class="table__cell" role="columnheader">Universe</div>
-        <div class="table__cell" role="columnheader">Channel</div>
+        <div class="table__cell" role="columnheader">Universe/Channel</div>
         <div class="table__cell" role="columnheader">Group</div>
+        <div class="table__cell" role="columnheader">Plan group/Plan</div>
+        <div class="table__cell" role="columnheader">Mac Address</div>
+        <div class="table__cell" role="columnheader">Setttings</div>
+        <div class="table__cell table__cell--actions" role="columnheader">Command</div>
       </div>
       @for (fixture of fixtures(); track fixture.name) {
         <div class="table__row" role="row">
-          <div class="table__cell" role="cell">{{ fixture.name }}</div>
-          <div class="table__cell" role="cell">{{ fixture.fixture_type }}</div>
-          <div class="table__cell" role="cell">{{ fixture.universe }}</div>
-          <div class="table__cell" role="cell">{{ fixture.channel }}</div>
+          <div class="table__cell" role="cell">
+            <div class="table__value table__value--primary">{{ fixture.name }}</div>
+            <div class="table__meta">Player type: {{ fixture.player_type }}</div>
+          </div>
+          <div class="table__cell" role="cell">
+            <div class="table__value table__value--primary">{{ fixture.fixture_type }}</div>
+            <div class="table__meta">FQBN: {{ fixture.fqbn }}</div>
+          </div>
+          <div class="table__cell" role="cell">{{ fixture.universe }}/{{ fixture.channel }}</div>
           <div class="table__cell" role="cell">{{ fixture.plan_group }}</div>
+          <div class="table__cell" role="cell">{{ fixture.plan_group }}/{{ fixture.plan }}</div>
+          <div class="table__cell" role="cell">{{ fixture.wifi_mac_address }}</div>
+          <div class="table__cell table__cell--pre" role="cell">
+            <pre class="table__json">{{ fixture.fixture_settings | json }}</pre>
+          </div>
+          <div class="table__cell table__cell--actions" role="cell">
+            <app-command-modal></app-command-modal>
+          </div>
         </div>
       }
     </div>

@@ -19,7 +19,7 @@
 
 .table {
   display: grid;
-  grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1.2fr 1.1fr 0.9fr 0.9fr 1.1fr 1.1fr 1.5fr 0.7fr;
   border: 1px solid var(--tui-text-03, #d7d7d7);
   border-radius: 0.75rem;
   overflow: hidden;
@@ -38,11 +38,46 @@
   padding: 0.75rem 1rem;
   border-bottom: 1px solid var(--tui-text-03, #d7d7d7);
   display: flex;
-  align-items: center;
+  align-items: flex-start;
+  gap: 0.35rem;
+  flex-direction: column;
+  text-align: left;
 }
 
 .table__row:last-child .table__cell {
   border-bottom: none;
+}
+
+.table__row--head .table__cell {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.table__value--primary {
+  font-weight: 700;
+}
+
+.table__meta {
+  margin: 0;
+  color: var(--tui-text-02, #6f6f6f);
+  font-size: 0.9rem;
+}
+
+.table__cell--pre {
+  padding-top: 0.75rem;
+}
+
+.table__json {
+  margin: 0;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 0.9rem;
+}
+
+.table__cell--actions {
+  align-items: flex-start;
 }
 
 .fixtures-table__empty {
