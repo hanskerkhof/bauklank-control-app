@@ -22,11 +22,31 @@
         }
 
         @if (plans().length) {
-          <app-plan-selector
-            [plans]="sortedPlans()"
-            [activePlanId]="activePlanId()"
-            (setPlan)="handleSetPlan($event)"
-          ></app-plan-selector>
+          <div class="plan-actions">
+            <app-plan-selector
+              class="plan-actions__selector"
+              [plans]="sortedPlans()"
+              [activePlanId]="activePlanId()"
+              (setPlan)="handleSetPlan($event)"
+            ></app-plan-selector>
+
+            <div class="restart-control">
+              <button
+                type="button"
+                class="restart-control__button"
+                [disabled]="isRestarting()"
+                (click)="handleRestart()"
+              >
+                Restart
+              </button>
+              @if (isRestarting()) {
+                <span class="restart-control__status" role="status" aria-live="polite">
+                  <span class="restart-control__spinner" aria-hidden="true"></span>
+                  Restarting…
+                </span>
+              }
+            </div>
+          </div>
         }
         <app-dmx-viewer [dmx]="dmx()"></app-dmx-viewer>
       </section>

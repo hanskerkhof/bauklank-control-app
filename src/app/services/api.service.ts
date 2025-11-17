@@ -1,10 +1,10 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { APP_CONFIG, AppConfig } from './app.config';
-import { PlansResponse } from './data/plans.model';
-import { ControlConfig } from './data/config.model';
-import { SoundLibrary } from './data/sound-library.model';
+import { APP_CONFIG, AppConfig } from '../app.config';
+import { PlansResponse } from '../data/plans.model';
+import { ControlConfig } from '../data/config.model';
+import { SoundLibrary } from '../data/sound-library.model';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -27,6 +27,10 @@ export class ApiService {
 
   getSoundLibrary(): Observable<SoundLibrary> {
     return this.http.get<SoundLibrary>(`${this.cfg.apiBase}/soundLibrary`);
+  }
+
+  restart(): Observable<void> {
+    return this.http.post<void>(`${this.cfg.apiBase}/restart`, {});
   }
 
   getState(): Observable<any> {
