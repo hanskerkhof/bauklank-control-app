@@ -1,0 +1,64 @@
+<button
+  type="button"
+  class="artnet-config__trigger"
+  aria-haspopup="dialog"
+  (click)="openDialog()"
+>
+  Config Art-Net
+</button>
+
+<dialog #dialog class="artnet-config__dialog">
+  <form class="artnet-config__form" method="dialog">
+    <header class="artnet-config__header">
+      <h3 class="artnet-config__title">Art-Net configuration</h3>
+      <button type="submit" class="artnet-config__close" aria-label="Close dialog">&times;</button>
+    </header>
+
+    <div class="artnet-config__body">
+      <label class="artnet-config__field">
+        <span class="artnet-config__label">IP address</span>
+        <input
+          type="text"
+          inputmode="numeric"
+          pattern="\d{1,3}(\.\d{1,3}){3}"
+          placeholder="xxx.xxx.xxx.xxx"
+          [value]="artnetIp()"
+          required
+          maxlength="15"
+          (input)="handleIpInput($event)"
+        />
+      </label>
+
+      <label class="artnet-config__field">
+        <span class="artnet-config__label">Universe</span>
+        <input
+          type="number"
+          inputmode="numeric"
+          min="0"
+          step="1"
+          [value]="universe() ?? ''"
+          required
+          (input)="handleUniverseInput($event)"
+        />
+      </label>
+    </div>
+
+    <footer class="artnet-config__footer">
+      <button
+        type="button"
+        class="artnet-config__button artnet-config__button--primary"
+        [disabled]="!canApply() || isSaving()"
+        (click)="applySettings()"
+      >
+        Apply
+      </button>
+      <button type="submit" class="artnet-config__button">Cancel</button>
+    </footer>
+  </form>
+</dialog>
+
+@if (toastMessage()) {
+  <div class="artnet-config__toast" role="status" aria-live="polite" (click)="dismissToast()">
+    {{ toastMessage() }}
+  </div>
+}

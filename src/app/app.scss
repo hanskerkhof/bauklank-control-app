@@ -22,6 +22,11 @@
   min-width: 280px;
 }
 
+.plan-actions__config {
+  display: flex;
+  align-items: center;
+}
+
 .restart-control {
   display: flex;
   align-items: center;
