@@ -35,6 +35,7 @@ These instructions apply to the entire repository unless a more specific `AGENTS
 ## State Management
 - Use signals for local component state
 - Use `computed()` for derived state
+- Use `effect()` for side effects
 - Keep state transformations pure and predictable
 - Do NOT use `mutate` on signals, use `update` or `set` instead
 
