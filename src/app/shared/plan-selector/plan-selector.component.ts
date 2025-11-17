@@ -31,23 +31,28 @@ export class PlanSelectorComponent {
   protected readonly canSubmit = computed(() => {
     const selected = this.selectedPlanId();
     const active = this.activePlanId();
-    console.log('selected', selected, 'active', active);
-    return Boolean(selected && active && selected !== active);
+    return Boolean(selected && selected !== active);
   });
+
+  private lastActivePlanId: string | null = null;
 
   constructor() {
     effect(() => {
       const list = this.plans();
       const active = this.activePlanId();
-      const selected = this.selectedPlanId();
 
-      if (active && active !== selected) {
-        this.selectedPlanId.set(active);
-        return;
+      const activeChanged = active !== this.lastActivePlanId;
+      if (activeChanged) {
+        this.lastActivePlanId = active;
+
+        if (active) {
+          this.selectedPlanId.set(active);
+          return;
+        }
       }
 
-      if (!active && !selected && list.length > 0) {
-        this.selectedPlanId.set(list[0].id);
+      if (!this.selectedPlanId() && list.length > 0) {
+        this.selectedPlanId.set(active ?? list[0].id);
       }
     });
   }
