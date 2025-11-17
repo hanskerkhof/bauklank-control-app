@@ -6,9 +6,12 @@ This repository does not currently include any agent guidance, so use this file 
 These instructions apply to the entire repository unless a more specific `AGENTS.md` is added in a subdirectory.
 
 ## Coding style
+- Use TypeScript and Angular conventions.
 - Follow the existing Prettier configuration (single quotes, 100 character width, Angular parser for templates).
 - Keep TypeScript and Angular code idiomatic: leverage Angular components, services, and modules instead of ad-hoc globals.
 - Avoid introducing new linting or formatting tools without project approval.
+- Use modern Angular @if control flow blocks
+- use Angular’s @for loop syntax with tracking
 
 ## Testing
 - Prefer running `npm test` for changes that affect logic or UI behavior.
