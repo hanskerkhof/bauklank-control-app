@@ -4,29 +4,27 @@
 
     <main class="layout" aria-label="BAUKLANK control">
       <header class="topbar">
-        <h1 class="tui-text_h1 app-title">BAUKLANK CONTROL</h1>
+        <div class="brand">
+          <h1 class="tui-text_h1 app-title">BAUKLANK CONTROL</h1>
+          <app-navigation-bar></app-navigation-bar>
+        </div>
       </header>
       <section class="content">
-        @if (soundLibrarySummary(); as soundLibrarySummary) {
-          <div class="sound-library">
-            <span class="sound-library__label">Sound library:</span>
-            <span class="sound-library__value">{{ soundLibrarySummary }}</span>
-          </div>
-        }
+        <app-sound-library-summary [summary]="state.soundLibrarySummary()"></app-sound-library-summary>
 
-        @if (activePlanLabel(); as activePlanLabel) {
+        @if (state.activePlanLabel(); as activePlanLabel) {
           <div class="active-plan">
             <span class="active-plan__label">Active plan:</span>
             <span class="active-plan__value">{{ activePlanLabel }}</span>
           </div>
         }
 
-        @if (plans().length) {
+        @if (state.plans().length) {
           <div class="plan-actions">
             <app-plan-selector
               class="plan-actions__selector"
-              [plans]="sortedPlans()"
-              [activePlanId]="activePlanId()"
+              [plans]="state.sortedPlans()"
+              [activePlanId]="state.activePlanId()"
               (setPlan)="handleSetPlan($event)"
             ></app-plan-selector>
 
@@ -34,12 +32,12 @@
               <button
                 type="button"
                 class="restart-control__button"
-                [disabled]="isRestarting()"
+                [disabled]="state.isRestarting()"
                 (click)="handleRestart()"
               >
                 Restart
               </button>
-              @if (isRestarting()) {
+              @if (state.isRestarting()) {
                 <span class="restart-control__status" role="status" aria-live="polite">
                   <span class="restart-control__spinner" aria-hidden="true"></span>
                   Restarting…
@@ -48,7 +46,8 @@
             </div>
           </div>
         }
-        <app-dmx-viewer [dmx]="dmx()"></app-dmx-viewer>
+
+        <router-outlet></router-outlet>
       </section>
     </main>
   </div>
