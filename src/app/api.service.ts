@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { APP_CONFIG, AppConfig } from './app.config';
 import { PlansResponse } from './data/plans.model';
 import { ControlConfig } from './data/config.model';
+import { SoundLibrary } from './data/sound-library.model';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
@@ -24,8 +25,8 @@ export class ApiService {
     return this.http.put<ControlConfig>(`${this.cfg.apiBase}/config`, config);
   }
 
-  getSoundLibrary(): Observable<any> {
-    return this.http.get(`${this.cfg.apiBase}/soundLibrary`);
+  getSoundLibrary(): Observable<SoundLibrary> {
+    return this.http.get<SoundLibrary>(`${this.cfg.apiBase}/soundLibrary`);
   }
 
   getState(): Observable<any> {

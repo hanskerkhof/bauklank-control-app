@@ -40,15 +40,20 @@ export class PlanSelectorComponent {
       const active = this.activePlanId();
       const selected = this.selectedPlanId();
 
-      if (active && (!selected || selected === active)) {
+      if (active && active !== selected) {
         this.selectedPlanId.set(active);
         return;
       }
 
-      if (!selected && list.length > 0) {
+      if (!active && !selected && list.length > 0) {
         this.selectedPlanId.set(list[0].id);
       }
     });
+  }
+
+  protected planLabel(plan: Plan): string {
+    const fixtureCount = plan.fixtureCount ?? plan.fixtures?.length ?? 0;
+    return `${plan.label} - fixtures: ${fixtureCount}`;
   }
 
   protected onPlanChange(nextPlanId: string): void {

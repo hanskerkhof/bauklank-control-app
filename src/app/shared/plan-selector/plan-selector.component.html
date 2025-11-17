@@ -9,7 +9,7 @@
     (change)="onPlanChange(planSelect.value)"
   >
     <option *ngFor="let plan of plans()" [value]="plan.id">
-      {{ plan.label }}
+      {{ planLabel(plan) }}
     </option>
   </select>
   <button
