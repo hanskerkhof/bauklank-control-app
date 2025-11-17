@@ -1,10 +1,11 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { EMPTY, Observable, catchError, finalize, forkJoin, switchMap, tap, timer } from 'rxjs';
 import { WsService } from './ws.service';
 import { ApiService } from './api.service';
 import { PlansResponse, Plan, Fixture } from '../data/plans.model';
 import { ControlConfig } from '../data/config.model';
 import { SoundLibrary } from '../data/sound-library.model';
+import { DmxPayload } from './ws.service';
 
 @Injectable({ providedIn: 'root' })
 export class ControlStateService {
@@ -15,8 +16,9 @@ export class ControlStateService {
   private readonly configSignal = signal<ControlConfig | null>(null);
   private readonly soundLibrarySignal = signal<SoundLibrary | null>(null);
   private readonly isRestartingSignal = signal(false);
+  private readonly dmxSignal = signal<DmxPayload | null>(null);
 
-  readonly dmx = computed(() => this.ws.dmx());
+  readonly dmx = this.dmxSignal.asReadonly();
   readonly plans = computed(() => this.plansResponseSignal()?.plans ?? []);
   readonly sortedPlans = computed(() =>
     [...this.plans()].sort((a, b) => a.label.localeCompare(b.label)),
@@ -39,12 +41,17 @@ export class ControlStateService {
   private readonly dataReloaders: Array<() => Observable<unknown>> = [
     () => this.fetchConfig(),
     () => this.fetchSoundLibrary(),
+    () => this.fetchDmx(),
   ];
 
   constructor() {
     this.fetchPlans().subscribe();
     this.reloadData().subscribe();
     this.ws.connect();
+
+    effect(() => {
+      this.dmxSignal.set(this.ws.dmx());
+    });
   }
 
   setPlan(planId: string): void {
@@ -119,6 +126,16 @@ export class ControlStateService {
       tap((library) => this.soundLibrarySignal.set(library)),
       catchError((error) => {
         console.error('Failed to load sound library', error);
+        return EMPTY;
+      }),
+    );
+  }
+
+  private fetchDmx(): Observable<DmxPayload> {
+    return this.api.getDmx().pipe(
+      tap((dmxPayload) => this.dmxSignal.set(dmxPayload)),
+      catchError((error) => {
+        console.error('Failed to load DMX', error);
         return EMPTY;
       }),
     );
