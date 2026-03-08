@@ -1,5 +1,17 @@
 # BauklankControlApp
 
+## Contributor Skill Reference
+
+Reusable BAUKLANK frontend guidance for this studio/operator interface lives in:
+
+- `/Users/hanskerkhof/bauklank-agent-skills`
+
+Relevant reusable skill:
+
+- `bauklank-frontend-studio`
+
+Repo-local guidance in `AGENTS.md` remains the authoritative source for repo-specific behavior.
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.5.
 
 ## Development server
